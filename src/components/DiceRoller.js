@@ -2,53 +2,56 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import '../styles/DiceRoller.css';
 
-import AvailableDie from './AvailableDie';
-import SelectedDie from './SelectedDie';
-import RolledDie from './RolledDie';
+import AvailableDiceList from './AvailableDiceList';
+import SelectedDiceList from './SelectedDiceList';
+import RolledDiceList from './RolledDiceList';
 import HistoryList from './HistoryList';
 
 document.body.style.backgroundColor = "#f5f7fa";
 
 class DiceRoller extends Component {
     state = {
-      availableDie: [{faces: 4}, {faces: 6}, {faces: 8}, {faces: 10}, {faces: 12}, {faces: 20}],
-      selectedDie: [],
-      rolledDie: [],
+      availableDice: [{faces: 4}, {faces: 6}, {faces: 8}, {faces: 10}, {faces: 12}, {faces: 20}],
+      selectedDice: [],
+      rolledDice: [],
       history: [] // { tag: 'Roll', timestamp: xxxxx, message: xxxxxx } 
     }
 
-  onAvailableDiceSelect = selectedDice => this.setState({selectedDie: [...this.state.selectedDie, selectedDice]});  
+  onAvailableDiceSelect = dice => this.setState({selectedDice: [...this.state.selectedDice, dice]});  
 
-  onSelectedDiceSelect = index => {
-    let array = this.state.selectedDie;
+  // Remove clicked dice from selected dice array TODO: fix state mutation?
+  onSelectedDiceClick = index => {
+    let array = this.state.selectedDice;
     array.splice(index, 1);    
-    this.setState({selectedDie: array});
+    this.setState({selectedDice: array});
+  }
+
+  // Reset state for a new roll
+  onClearClick = () => {
+    this.setState({rolledDice: [], selectedDice: [], total: 0, possible: 0});
   }
 
   onRollClick = () => {
     // Create new array of dice objects that include roll value by iterating over array of selected die
     // Notes: (1) Spread for object props / Object.assign() 
-    let rolledDie = this.state.selectedDie.map(function(dice) {
+    const rolledDice = this.state.selectedDice.map(function(dice) {
       return {...dice, roll: Math.floor(Math.random()*(dice.faces)+1)}
     });
 
-    // ROLL HISTORY   
-    // Loop through each 
-    const message = rolledDie.map((rolledDice)=>`[d${rolledDice.faces}: ${rolledDice.roll}]  `);
+    // History entry for this roll   
+      // Get timestamp with moment.js TODO: make it local
+      const timestamp = moment().format('ddd, M/D/YY, HH:mm');
 
-    // Get timestamp with moment.js 
-    // TODO: make it local
-    const timestamp = moment().format('ddd, M/D/YY, HH:mm');
+      // Create message string by iterating over array of rolled dice objects and capturing face and roll value
+      // E.g., [d10: 2] [d10: 8] [d10: 10] [d10: 4]
+      const message = rolledDice.map((dice) => `[d${dice.faces}: ${dice.roll}]  `);
+      // rolledDie.map((rolledDice) => console.log(`[d${rolledDice.faces}: ${rolledDice.roll}]`.padEnd(20)+'hi'));
 
-    // Create new history array with new entry on top followed by existing entries from state
-    let historyArray = [{tag: 'Roll', timestamp: timestamp, message: message},...this.state.history];
+      // Create new history array with new entry on top followed by existing entries from state
+      // Notes: (2) ES6 shorthand when prop name and variable are the same
+      const history = [{tag: 'Roll', timestamp, message},...this.state.history]; 
 
-    // Set 
-    this.setState({rolledDie: rolledDie, history: historyArray}); 
-  }
-
-  onClearClick = () => {
-    this.setState({rolledDie: [], selectedDie: [], total: 0, possible: 0});
+    this.setState({rolledDice, history}); 
   }
 
   render() {
@@ -61,17 +64,17 @@ class DiceRoller extends Component {
         </div>
         
         <div className="comp">
-          <AvailableDie 
-            availableDie={this.state.availableDie} 
+          <AvailableDiceList 
+            availableDice={this.state.availableDice} 
             onAvailableDiceSelect={this.onAvailableDiceSelect} />
         </div>
         <div className="comp">
-          <SelectedDie 
-            selectedDie={this.state.selectedDie}
-            onSelectedDiceSelect={this.onSelectedDiceSelect} />
+          <SelectedDiceList 
+            selectedDice={this.state.selectedDice}
+            onSelectedDiceClick={this.onSelectedDiceClick} />
         </div>
         <div className="comp">
-          <RolledDie rolledDie={this.state.rolledDie} />
+          <RolledDiceList rolledDice={this.state.rolledDice} />
         </div>
 
         <div></div>
@@ -84,10 +87,13 @@ class DiceRoller extends Component {
             className="btn btn-danger pad5">Clear</button>
         </div>
        <div>
+
           {/* Calculate total of all rolled die */}
-          <div>Total: {this.state.rolledDie.reduce((a, dice)=>(a+dice.roll), 0)}</div>
+          <div>Total: {this.state.rolledDice.reduce((a, dice)=>(a+dice.roll), 0)}</div>
+
           {/* Calculate max possible roll of all die */}
-          <div>Possible: {this.state.rolledDie.reduce((a, dice)=>(a+dice.faces), 0)}</div>
+          <div>Possible: {this.state.rolledDice.reduce((a, dice)=>(a+dice.faces), 0)}</div>
+
           <br />
           <HistoryList history={this.state.history} />
         </div>
@@ -103,7 +109,7 @@ export default DiceRoller;
 
   // The ...dice spread captures current properties of of the object, then the roll property is added
 
-  // let rolledDie = this.state.selectedDie.map(function(dice) {
+  // let rolledDie = this.state.selectedDice.map(function(dice) {
   //   return {...dice, roll: Math.floor(Math.random()*(dice.faces)+1)}
   // });
 
@@ -115,19 +121,14 @@ export default DiceRoller;
   //   return({faces: dice.faces, roll: Math.floor(Math.random()*(dice.faces)+1)});
   // });
 
+// (2) 
+  // ES6 shorthand when prop name and variable are the same
+  
+  // const timestamp = blahblah;
+  // const message = blahblah;
 
+  // This... 
+  // let historyArray = [{tag: 'Roll', timestamp: timestamp, message: message},...this.state.history]; 
 
-
-
-
-
-
-
-// onAvailableDiceSelect = this.onAvailableDiceSelect.bind(this);
-// onSelectedDiceSelect = this.onSelectedDiceSelect.bind(this);
-// this.onRollClick = this.onRollClick.bind(this);
-// this.onClearClick = this.onClearClick.bind(this);
-
-
-
-//equivalent to: this.setState({rolledDie: array, total: total, possible: possible}); 
+  // Can be shortened to...
+  // let historyArray = [{tag: 'Roll', timestamp, message},...this.state.history]; 

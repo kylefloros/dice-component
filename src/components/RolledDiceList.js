@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import RolledDice from './RolledDice';
 import uuid from 'uuid/v4'
 
-const RolledDie = ({rolledDie}) =>{
+const RolledDiceList = ({rolledDice}) =>{
     const renderList = () => {
-        return rolledDie.map((dice) => {
+        return rolledDice.map((dice) => {
             return (
                 <RolledDice 
                     key={uuid()}
@@ -20,4 +20,4 @@ const RolledDie = ({rolledDie}) =>{
     )
 }
 
-export default RolledDie;
+export default RolledDiceList;

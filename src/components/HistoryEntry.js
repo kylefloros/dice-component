@@ -1,6 +1,5 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-import uuid from 'uuid/v4'
 
 const HistoryEntry = ({historyEntry}) => {
     return (

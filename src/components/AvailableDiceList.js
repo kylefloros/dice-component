@@ -3,9 +3,9 @@ import AvailableDice from './AvailableDice';
 import uuid from 'uuid/v4'
 import 'bootstrap/dist/css/bootstrap.css';
 
-const AvailableDie = ({availableDie, onAvailableDiceSelect}) => {
+const AvailableDiceList = ({availableDice, onAvailableDiceSelect}) => {
     const renderList = () => {
-        return availableDie.map((dice) => {
+        return availableDice.map((dice) => {
             return (
                 <AvailableDice 
                     key={uuid()}//key={`d${dice.face}_${index}`} 
@@ -24,8 +24,4 @@ const AvailableDie = ({availableDie, onAvailableDiceSelect}) => {
     )
 }
 
-export default AvailableDie;
-//<AvailableDice sides={die} handleRoll={ (die) => this.setState({ currentRoll: Math.floor(Math.random()*(die)+1)} )} />
-
-
-///{ currentRoll: Math.floor(Math.random()*(die)+1) }
+export default AvailableDiceList;
