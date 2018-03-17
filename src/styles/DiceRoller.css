@@ -1,16 +1,18 @@
-.container {
-    display: grid;
-    grid-template-columns: 1fr 3fr;
-    background-color: white;
-    padding: 20px;
-}
-
 .bigFont {
-    font-size: 18em;
+    font-size: 5em;
 }
 
 .centerText {
     text-align: center;
+}
+
+.pointer {    
+    cursor: pointer;
+}
+
+.history{
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
 }
 
 li.die {
@@ -32,10 +34,13 @@ li.die:hover{
     display:grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows:  1fr  2fr  1fr;
+    grid-column-gap: 1em;
+    grid-row-gap: 1em;
 }
 
 .comp {
     border: 1px solid #e0e0e0;
+    background-color: white;
 }
 
 html, body {
@@ -43,3 +48,32 @@ html, body {
     height: 100%;
     background-color: #f5f7fa;
 }
+
+.pad20 {
+    padding: 20px
+}
+
+.selectedDie {    
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;    
+    grid-column-gap: 4px;
+    grid-row-gap: 4px;
+    padding: 10px;
+}
+
+.rolledDice {
+    display:grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 2fr;
+}
+
+.pad5 {
+    padding: 5px
+}
+
+.buttons {    
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    grid-column-gap: 10px;
+} 
