@@ -38,18 +38,16 @@ class DiceRoller extends Component {
       return {...dice, roll: Math.floor(Math.random()*(dice.faces)+1)}
     });
 
-    // History entry for this roll   
-      // Get timestamp with moment.js TODO: make it local
-      const timestamp = moment().format('ddd, M/D/YY, HH:mm');
+    // History entry: Get timestamp with moment.js TODO: make it local
+    const timestamp = moment().format('ddd, M/D/YY, HH:mm');
 
-      // Create message string by iterating over array of rolled dice objects and capturing face and roll value
-      // E.g., [d10: 2] [d10: 8] [d10: 10] [d10: 4]
-      const message = rolledDice.map((dice) => `[d${dice.faces}: ${dice.roll}]  `);
-      // rolledDie.map((rolledDice) => console.log(`[d${rolledDice.faces}: ${rolledDice.roll}]`.padEnd(20)+'hi'));
+    // History entry: Create message string by iterating over array of rolled dice objects and capturing face and roll value
+    // E.g., [d10: 2] [d10: 8] [d10: 10] [d10: 4]
+    const message = rolledDice.map((dice) => `[d${dice.faces}: ${dice.roll}]  `);
 
-      // Create new history array with new entry on top followed by existing entries from state
-      // Notes: (2) ES6 shorthand when prop name and variable are the same
-      const history = [{tag: 'Roll', timestamp, message},...this.state.history]; 
+    // History entry: Create new history array with new entry on top followed by existing entries from state
+    // Notes: (2) ES6 shorthand when prop name and variable are the same
+    const history = [{tag: 'Roll', timestamp, message},...this.state.history]; 
 
     this.setState({rolledDice, history}); 
   }
