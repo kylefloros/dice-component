@@ -77,3 +77,7 @@ html, body {
     grid-template-rows: 1fr 1fr 1fr 1fr;
     grid-column-gap: 10px;
 } 
+
+.bold {
+    font-weight: bold;
+}
