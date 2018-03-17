@@ -53,14 +53,37 @@ class DiceRoller extends Component {
   }
 
   render() {
-    //console.log('Roller', this.state.history);
-    return (
-      <div className="masterContainer">
-        <div></div>
-        <div></div>
-        <div>
+    // Calculate total of all rolled die and max possible roll
+    const total = this.state.rolledDice.reduce((a, dice)=>(a+dice.roll), 0);
+    const possible = this.state.rolledDice.reduce((a, dice)=>(a+dice.faces), 0);
+    
+    // Easter egg!
+    if(possible >= 24 && total===possible){
+      return (
+        <div className="centerText">
+          <br/>
+          <div className="crit blink_me">
+            <div>{total}/{possible}</div>
+            <div>Dude, nice roll.</div>
+          </div>
+          <br/>
+          <br/>
+          <button 
+            onClick={this.onClearClick}
+            className="btn btn-danger pad5">Back
+          </button>
         </div>
+      )
+    }
+
+    return (      
+      <div className="masterContainer">
+        {/*Top Row*/}
+        <div></div>
+        <div></div>
+        <div></div>
         
+        {/*Center Row*/}
         <div className="comp">
           <AvailableDiceList 
             availableDice={this.state.availableDice} 
@@ -75,6 +98,7 @@ class DiceRoller extends Component {
           <RolledDiceList rolledDice={this.state.rolledDice} />
         </div>
 
+        {/*Bottom Row*/}
         <div></div>
         <div className="buttons">
           <button 
@@ -85,13 +109,8 @@ class DiceRoller extends Component {
             className="btn btn-danger pad5">Clear</button>
         </div>
        <div>
-
-          {/* Calculate total of all rolled die */}
-          <div>Total: {this.state.rolledDice.reduce((a, dice)=>(a+dice.roll), 0)}</div>
-
-          {/* Calculate max possible roll of all die */}
-          <div>Possible: {this.state.rolledDice.reduce((a, dice)=>(a+dice.faces), 0)}</div>
-
+          <div className="mediumFont">Total: {total}</div>
+          <div className="mediumFont">Possible: {possible}</div>
           <br />
           <HistoryList history={this.state.history} />
         </div>

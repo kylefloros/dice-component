@@ -1,9 +1,25 @@
+.mediumFont {
+    font-size: 3em;
+}
 .bigFont {
     font-size: 5em;
 }
-
+.crit {
+    font-size: 5em;
+    color: red;
+    text-align: center;
+}
 .centerText {
     text-align: center;
+}
+.blink_me {
+    animation: blinker 1s step-start infinite;
+  }
+  
+@keyframes blinker {
+    50% {
+        opacity: 0;
+    }
 }
 
 .pointer {    
@@ -33,7 +49,7 @@ li.die:hover{
 .masterContainer {
     display:grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows:  1fr  2fr  1fr;
+    grid-template-rows:  1fr  2fr  2fr;
     grid-column-gap: 1em;
     grid-row-gap: 1em;
 }
