@@ -16,7 +16,8 @@ const SelectedDiceList = ({selectedDice, onSelectedDiceClick}) => {
     }   
 
     return (
-        <div className="selectedDie centerText">
+        <div 
+            className="grid_selectedList softBorder">
             {renderList()}
         </div>
     )

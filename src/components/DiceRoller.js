@@ -17,7 +17,12 @@ class DiceRoller extends Component {
       history: [] // { tag: 'Roll', timestamp: xxxxx, message: xxxxxx } 
     }
 
-  onAvailableDiceSelect = dice => this.setState({selectedDice: [...this.state.selectedDice, dice]});  
+  onAvailableDiceSelect = dice => {
+    if(this.state.selectedDice.length < 8)
+    {
+      this.setState({selectedDice: [...this.state.selectedDice, dice]}); 
+    }
+  }
 
   // Remove clicked dice from selected dice array TODO: fix state mutation?
   onSelectedDiceClick = index => {
@@ -55,9 +60,10 @@ class DiceRoller extends Component {
   render() {
     // Calculate total of all rolled die and max possible roll
     const total = this.state.rolledDice.reduce((a, dice)=>(a+dice.roll), 0);
-    const possible = this.state.rolledDice.reduce((a, dice)=>(a+dice.faces), 0);
+    const possible = this.state.selectedDice.reduce((a, dice)=>(a+dice.faces), 0);
     
     // Easter egg!
+    /*
     if(possible >= 24 && total===possible){
       return (
         <div className="centerText">
@@ -75,46 +81,59 @@ class DiceRoller extends Component {
         </div>
       )
     }
+    */
 
     return (      
-      <div className="masterContainer">
-        {/*Top Row*/}
-        <div></div>
-        <div></div>
-        <div></div>
-        
-        {/*Center Row*/}
-        <div className="comp">
-          <AvailableDiceList 
-            availableDice={this.state.availableDice} 
-            onAvailableDiceSelect={this.onAvailableDiceSelect} />
+      <div>
+        <div className="grid_dice_controls softBorder">
+          <div className="grid_available_selectedRolled">
+            <AvailableDiceList 
+              className="grid_availableList"
+              availableDice={this.state.availableDice} 
+              onAvailableDiceSelect={this.onAvailableDiceSelect} 
+            />
+            <div className="grid_selected_rolled softBorder">
+              <SelectedDiceList                 
+                selectedDice={this.state.selectedDice}
+                onSelectedDiceClick={this.onSelectedDiceClick} 
+              />
+              <RolledDiceList 
+                rolledDice={this.state.rolledDice} 
+              />
+            </div>
+          </div>
+         <div className="grid_buttons_output"> 
+            <div className="grid_roll_clear_spacer">      
+              <div className="grid_roll_clear">      
+                <button 
+                  onClick={this.onRollClick}
+                  className="btn btn-primary pad5">Roll!
+                </button>
+                <button 
+                  onClick={this.onClearClick}
+                  className="btn btn-danger pad5">Clear
+                </button>  
+                <div>{/*spacer*/}</div>
+              </div>
+              <div>{/*spacer*/}</div>
+            </div>
+            <div className="grid_totals_history softBorder">
+              <div className="grid_total_max_spacer softBorder">
+                <div>{/*spacer*/}</div>
+                <div className="grid_total_max">
+                  <div className="font2">Total: {total}</div>
+                  <div className="font2">Max: {possible}</div>
+                </div>
+                <div>{/*spacer*/}</div>
+              </div>
+              <div>             
+                <HistoryList 
+                  history={this.state.history} 
+                />  
+              </div>
+            </div>
+          </div> 
         </div>
-        <div className="comp">
-          <SelectedDiceList 
-            selectedDice={this.state.selectedDice}
-            onSelectedDiceClick={this.onSelectedDiceClick} />
-        </div>
-        <div className="comp">
-          <RolledDiceList rolledDice={this.state.rolledDice} />
-        </div>
-
-        {/*Bottom Row*/}
-        <div></div>
-        <div className="buttons">
-          <button 
-            onClick={this.onRollClick}
-            className="btn btn-primary pad5">Roll!</button>
-          <button 
-            onClick={this.onClearClick}
-            className="btn btn-danger pad5">Clear</button>
-        </div>
-       <div>
-          <div className="mediumFont">Total: {total}</div>
-          <div className="mediumFont">Possible: {possible}</div>
-          <br />
-          <HistoryList history={this.state.history} />
-        </div>
-       <div></div>
       </div>
     );
   }

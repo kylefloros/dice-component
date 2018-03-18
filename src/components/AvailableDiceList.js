@@ -16,10 +16,9 @@ const AvailableDiceList = ({availableDice, onAvailableDiceSelect}) => {
     }
 
     return (
-        <div className="pad20">
-            <ul className="list-group centerText">
-                {renderList()}
-            </ul>
+        <div 
+            className="grid_availableList softBorder centerText">
+            {renderList()}
         </div>
     )
 }

@@ -3,9 +3,9 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 const RolledDice = ({dice}) => {
     return (
-        <div className="list-group-item die rolledDice textCenter">
-            <div>d{dice.faces}</div>
-            <div className="bigFont">{dice.roll}</div>
+        <div className="softBorder centerText">
+            <div className="font1">d{dice.faces}</div>
+            <div className="font2">{dice.roll}</div>
         </div>        
     )
 };

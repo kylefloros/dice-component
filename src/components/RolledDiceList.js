@@ -14,7 +14,8 @@ const RolledDiceList = ({rolledDice}) =>{
     }
        
     return (
-        <div className="selectedDie centerText">
+        <div 
+            className="grid_rolledList softBorder">
             {renderList()}
         </div>
     )

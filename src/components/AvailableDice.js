@@ -2,11 +2,11 @@ import React from 'react';
 
 const AvailableDice = ({dice, callback}) => {
     return (
-        <li 
-            className="list-group-item die"
+        <div 
+            className="softBorder pointer noSelect borderHover font1"
             onClick={() => callback(dice)}>
             d{dice.faces}
-        </li>
+        </div>
     )
 };
 

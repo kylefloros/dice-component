@@ -1,14 +1,15 @@
 import React from 'react';
 
-const SelectedDice = ({dice, uniqueId, callback}) => { //without curly, need dice.dice.faces
+const SelectedDice = ({dice, uniqueId, callback}) => { 
     return (
         <div
-            className="list-group-item die pointer"
+            className="softBorder pointer centerText noSelect borderHover font1"
             onClick={() => callback(uniqueId)}>
             d{dice.faces}
-        </div>
-        
+        </div>        
     )
 };
 
 export default SelectedDice;
+
+//without curly, need dice.dice.faces
